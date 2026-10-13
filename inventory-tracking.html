@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Tracking</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SheetJS CDN for Excel Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-slate-50">
+
+    <!-- Container for Query App -->
+    <div id="query-app"></div>
+
+    <!-- 1. 引入前端基础通用框架 -->    
+    <script src="frontend/js/query-framework.js?v=20260929_01"></script>
+
+    <!-- 2. 引入 Inventory 专属扩展组件（注意这里换成连字符 - ） -->
+    <script src="frontend/js/inventory-tracking-query-framework.js?v=20260929_01"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 3. 创建子类实例
+            new InventoryTrackingQueryFramework({
+                containerId: 'query-app',
+                // 指向方案 B 独立的 API 文件
+                apiUrl: 'backend/inventory_tracking_query.php', 
+                timeRangeApiUrl: 'backend/inventory_tracking_time_range.php', 
+                tableName: 'inventorytrackingexport',
+                title: 'Inventory Operation Tracking',
+                pageSize: 50,
+                columns: [
+                    { field: 'Operation_Type',      label: 'Operation_Type',      type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'Order_Number',        label: 'Order_Number',        type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'Receive_Name',        label: 'Receive_Name',        type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'Operator',            label: 'Operator',            type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'Operation_Time',      label: 'Operation_Time',      type: 'datetime',   isPrimary: true,    defaultVisible: true },
+                    { field: 'Before_Item_Code',    label: 'Before_Item_Code',    type: 'text',       isPrimary: true,    defaultVisible: true },
+                    { field: 'Before_Location_Code',label: 'Before_Location_Code',type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'Before_Quantity',     label: 'Before_Quantity',     type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'After_Item_Code',     label: 'After_Item_Code',     type: 'text',       isPrimary: false,   defaultVisible: false },
+                    { field: 'After_Location_Code', label: 'After_Location_Code', type: 'text',       isPrimary: false,   defaultVisible: true },
+                    { field: 'After_Quantity',      label: 'After_Quantity',      type: 'text',       isPrimary: false,   defaultVisible: true }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
